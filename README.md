@@ -2,5 +2,5 @@
 
 Repozitorij laboratorijskih vježbi
 ```
-Vjezbe 1✅
+Vjezbe 1 ✅
 ```
