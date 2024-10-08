@@ -1,3 +1,6 @@
-# StrukturePodataka
-Laboratorijske vježbe
-Vjezbe 1 odradene!
+# Strukture Podataka
+
+Repozitorij laboratorijskih vježbi
+```
+Vjezbe 1✅
+```
