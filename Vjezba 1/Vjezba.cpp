@@ -8,18 +8,20 @@ int NumOfRows(const char* filename) {
 	int NumOfRows = 0;
 	int n;
 	char Buffer[MAX];
-	if (!fp) return -1;
+	if (!dat) return -1;
 	while (1) {
 		fgets(Buffer, n, dat);
 		NumOfRows++;
 		if (feof(dat) != 0) break;
 
 	}
+	return NumOfRows;
 
 }
 
 
 int main() {
-	printf("Hello World!");
+	printf("Hello World!\n");
+	printf("Ima %d redova u datoteci!\n",NumOfRows("studenti.txt"));
 	return 0;
 }

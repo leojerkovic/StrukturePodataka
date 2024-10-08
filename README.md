@@ -1,3 +1,3 @@
 # StrukturePodataka
 Laboratorijske vježbe
-Test opet 2
+Vjezbe 1 odradene!
