@@ -26,6 +26,7 @@ int DeletePerson(struct osoba*, char*);
 
 struct osoba* AddAfter(struct osoba*, char*, char*, char*, int);
 struct osoba* AddBefore(struct osoba*, char*, char*, char*, int);
+int SortList(struct osoba*);
 int WriteIn(struct osoba*,const char*);
 int ReadOut(struct osoba*,const char*);
 
@@ -75,12 +76,17 @@ int main() {
 
 	AddAfter(&head, prezime3, ime6, prezime6, godrod6); //Dodaj nakon
 	AddBefore(&head, prezime4, ime7, prezime7, godrod7); //Dodaj prije
+	
 
 	ListOut(&head); //Ispis elemenata
 
 	WriteIn(&head, "ispisiosobe.txt"); //Elemente liste program ispise u tekstovnu datoteku
 	DeleteAll(&head); //Izbrise sve clanove liste
 	ReadOut(&head, "citajosobe.txt"); //Iz tekstovne datoteke program ili pohrani u listu ili samo ispise na konzolu
+
+	ListOut(&head); //Ispis elemenata
+
+	SortList(&head); //Sortiranje liste
 
 	ListOut(&head); //Ispis elemenata
 
@@ -241,13 +247,53 @@ struct osoba* AddBefore(struct osoba* head, char* nakon, char* ime, char* prezim
 	return novi;
 }
 
+int SortList(struct osoba* head) {
+	if (head->next == NULL) {
+		printf("\nNo elements to sort...\n");
+		return EXIT_FAILURE;
+	}
+	else if (head->next->next == NULL) {
+		printf("\nOnly one element...\n");
+		return EXIT_FAILURE;
+	}
+	struct osoba* prev=head;
+	struct osoba* cur=head->next;
+	struct osoba* temp;
+	struct osoba* end=NULL;
+
+	while (head->next!=end) {
+		prev = head;
+		cur = head->next;
+
+		while (cur->next!=end) {
+			if (strcmp(cur->prezime, cur->next->prezime) > 0) {
+				temp = cur->next;
+				cur->next = temp->next;
+				prev->next = temp;
+				temp->next = cur;
+				
+				cur = temp;
+			}
+			prev = cur;
+			cur = cur->next;
+
+		}
+		end = cur;
+	}
+	return EXIT_SUCCESS;
+}
+
 int WriteIn(struct osoba* head, const char* ime) {
 	FILE* dat;
 	dat = fopen(ime, "w");
+	if (!dat) {
+		printf("\nFile failed to open...\n");
+		return EXIT_FAILURE;
+	}
 	struct osoba* temp;
 	temp = head->next;
 	if (temp == NULL) {
-		fprintf(dat, "NO ELEMENTS...");
+		fprintf(dat, "\nNO ELEMENTS...\n");
 		return EXIT_FAILURE;
 	}
 	while (1) {
@@ -269,13 +315,17 @@ int WriteIn(struct osoba* head, const char* ime) {
 int ReadOut(struct osoba* head, const char* ime) {
 	FILE* dat;
 	dat = fopen(ime, "r");
+	if (!dat) {
+		printf("\nFile failed to open...\n");
+		return EXIT_FAILURE;
+	}
 	char buffer[MAX];
 	char name[15];
 	char surname[15];
 	int godrod;
 	int a;
 	
-	printf("Zelis li pohraniti u listu(1) ili ispisati(2)? "); scanf("%d", &a);
+	printf("\nZelis li pohraniti u listu(1) ili ispisati(2)? "); scanf("%d", &a);
 	if (a == 1) {
 		while (1) {
 			fgets(buffer, MAX, dat);
@@ -303,7 +353,7 @@ int ReadOut(struct osoba* head, const char* ime) {
 
 int DeleteAll(struct osoba* head) {
 	if (head->next == NULL) {
-		printf("No elements to delete...");
+		printf("\nNo elements to delete...\n");
 		return EXIT_FAILURE;
 	}
 	struct osoba* cur = head->next;
