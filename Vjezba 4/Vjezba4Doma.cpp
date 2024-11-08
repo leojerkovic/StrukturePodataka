@@ -29,20 +29,24 @@ int main() {
 	if (head2 != NULL) {
 		head2->next = NULL;
 	}
-	else {
+	else {								//Radi visual studia malloc head-a i uvjeti
 		free(head2);
 	}
 	struct polinom* head3;
-	CitanjeIzDat(head,"polinomi.txt");
+	struct polinom* head4;
+	CitanjeIzDat(head,"polinomi.txt");  //testiranje unosa iz datoteke i rucno preko funkcije
 	SortiranUnos(head2, 2, 3);
 	SortiranUnos(head2, 2, -3);
 	SortiranUnos(head2, 5, 6);
 	SortiranUnos(head2, 7, 5);
 	SortiranUnos(head2, 1, 9);
 	SortiranUnos(head2, 2, 1);
-	//head3=ZbrajanjePolinoma(head, head2);
-	head3 = MnozenjePolinoma(head, head2);
-	IspisPolinoma(head3);
+
+	head3=ZbrajanjePolinoma(head, head2);	//testiranje funckija
+	head4 = MnozenjePolinoma(head, head3);
+	//IspisPolinoma(head3);
+	IspisPolinoma(head4);
+
 	return 0;
 }
 
@@ -50,10 +54,16 @@ int SortiranUnos(struct polinom* head, int eksp, int koef) {
 	struct polinom* temp=NULL;
 	temp = (struct polinom*)malloc(sizeof(struct polinom));
 	if (temp == NULL) {
+		printf("Memory allocation failed...");
 		return EXIT_FAILURE;
 	}
 	temp->eksp = eksp;
 	temp->koef = koef;
+	if (head == NULL) {
+		printf("No head to add element to...");
+		free(temp);
+		return EXIT_FAILURE;
+	}
 	if (head->next == NULL) {
 		temp->next = head->next;
 		head->next = temp;
@@ -91,15 +101,16 @@ int SortiranUnos(struct polinom* head, int eksp, int koef) {
 }
 
 int IspisPolinoma(struct polinom* head) {
-	if (head->next == NULL) {
+	if (head == NULL||head->next == NULL) {
 		printf("No elements to print...");
 		return EXIT_FAILURE;
 	}
 	struct polinom* temp=head;
 	while (1) {
 		temp = temp->next;
-		printf("%dx^(%d)", temp->koef, temp->eksp);
+		printf("%dx^%d", temp->koef, temp->eksp);
 		if (temp->next == NULL) {
+			printf("\n");
 			return EXIT_SUCCESS;
 		}
 		else {
@@ -113,6 +124,7 @@ int CitanjeIzDat(struct polinom* head, const char* name) {
 	FILE* dat = NULL;
 	dat = fopen(name, "r");
 	if (dat == NULL) {
+		printf("Error opening file...");
 		return EXIT_FAILURE;
 	}
 	int eksp, koef;
@@ -125,8 +137,8 @@ int CitanjeIzDat(struct polinom* head, const char* name) {
 }
 
 int UkupnoBrisanje(struct polinom* head) {
-	if (head->next == NULL) {
-		printf("No elements to return");
+	if (head==NULL||head->next == NULL) {
+		printf("No elements to return...");
 		return EXIT_FAILURE;
 	}
 	struct polinom* cur=head->next;
@@ -143,7 +155,7 @@ int UkupnoBrisanje(struct polinom* head) {
 }
 
 int SpecificnoBrisanje(struct polinom* head, int eksp) {
-	if (head->next == NULL) {
+	if (head==NULL||head->next == NULL) {
 		printf("Empty list...");
 		return EXIT_FAILURE;
 	}
@@ -165,7 +177,7 @@ int SpecificnoBrisanje(struct polinom* head, int eksp) {
 }
 
 int Pronadi(struct polinom* head, int eksp) {
-	if (head->next == NULL) {
+	if (head==NULL||head->next == NULL) {
 		printf("Empty list...");
 		return EXIT_FAILURE;
 	}
@@ -183,7 +195,7 @@ int Pronadi(struct polinom* head, int eksp) {
 
 
 struct polinom* ZbrajanjePolinoma(struct polinom* head1, struct polinom* head2){
-	if (head1->next == NULL || head2->next == NULL) {
+	if (head1 == NULL || head2 == NULL || head1->next == NULL || head2->next == NULL) {
 		printf("No elements to add...");
 		return NULL;
 	}
@@ -197,6 +209,7 @@ struct polinom* ZbrajanjePolinoma(struct polinom* head1, struct polinom* head2){
 		struct polinom* head = NULL;
 		head = (struct polinom*)malloc(sizeof(struct polinom));
 		if (head == NULL) {
+			printf("Memory allocation failed...");
 			return NULL;
 		}
 		head->next = NULL;
@@ -239,7 +252,7 @@ struct polinom* ZbrajanjePolinoma(struct polinom* head1, struct polinom* head2){
 }
 
 struct polinom* MnozenjePolinoma(struct polinom* head1, struct polinom* head2) {
-	if (head1->next == NULL || head2->next == NULL) {
+	if (head1 == NULL || head2 == NULL || head1->next == NULL || head2->next == NULL) {
 		printf("No elements to multiply...");
 		return NULL;
 	}
@@ -257,6 +270,7 @@ struct polinom* MnozenjePolinoma(struct polinom* head1, struct polinom* head2) {
 		struct polinom* head = NULL;
 		head = (struct polinom*)malloc(sizeof(struct polinom));
 		if (head == NULL) {
+			printf("Memory allocation failed...");
 			return NULL;
 		}
 		head->next = NULL;
