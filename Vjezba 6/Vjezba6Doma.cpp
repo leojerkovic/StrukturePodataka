@@ -28,7 +28,6 @@ int UbaciSortiranoRacun(racunposition, racunposition);
 int UsporediDatume(racunposition, racunposition);
 int UcitajArtikleIzDatoteke(artiklposition, char[]);
 int KreirajISortiranoUbaciArtikl(artiklposition, char[], int, double);
-int IzmjeniAdresu(racunposition*,racunposition);
 int IzlistajDatumeRacuna(racunposition);
 int IzlistajArtikleIzRacuna(racunposition, int);
 int PronadiArtiklUPeriodu(racunposition, char[], char[], char[], int*, double*);
@@ -216,12 +215,6 @@ int KreirajISortiranoUbaciArtikl(artiklposition head, char ime[], int kolicina, 
 	return 0;
 }
 
-int IzmjeniAdresu(racunposition* temp,racunposition target) {
-	free(*temp);
-	temp = &target;
-	return EXIT_SUCCESS;
-}
-
 int IzlistajDatumeRacuna(racunposition head) {
 	if (head->next == NULL) {
 		printf("Nema racuna za izlistat...");
@@ -275,12 +268,16 @@ int PronadiArtiklUPeriodu(racunposition head, char trazi[], char datum1[], char 
 	while (UsporediDatume(R1, &temp) == DATUM_PRIJE) {
 		R1 = R1->next;
 		if (R1 == NULL) {
-			printf("Datum je nakon zadnjega...");
+			printf("Datum je nakon zadnjega...\n");
 			return EXIT_FAILURE;
 		}
 	}
 	R2 = R1;
 	strcpy(temp.datum, datum2);
+	if (UsporediDatume(R2, &temp) == DATUM_KASNIJE) {
+		printf("Datum je prije prvoga...\n");
+		return EXIT_FAILURE;
+	}
 	while (UsporediDatume(R2, &temp) == DATUM_PRIJE) {
 		R2 = R2->next;
 		if (R2->next==NULL || UsporediDatume(R2->next,&temp)==DATUM_KASNIJE) {
