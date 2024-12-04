@@ -1,0 +1,5 @@
+2024-5-30
+deka 1 10
+rukavice 4 0.2
+olovka 2 1
+ravnalo 1 1.5
