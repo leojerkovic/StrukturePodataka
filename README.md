@@ -8,4 +8,5 @@ Vjezba 3 ✅
 Vjezba 4 ✅
 Vjezba 5 ✅
 Vjezba 6 ✅
+Vjezba 7 ✅
 ```
