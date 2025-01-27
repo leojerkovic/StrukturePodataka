@@ -155,6 +155,8 @@ int push(pred head, pstablo cvor) {
 	
 	novi->next = head->next;
 	head->next = novi;
+
+	return EXIT_SUCCESS;
 }
 
 pstablo pop(pred head) {
@@ -197,26 +199,29 @@ pstablo Brisi(pstablo cvor, int El) {
 		return NULL;
 	}
 	if (cvor->El == El) {
+						
+		if (cvor->L==NULL && cvor->R==NULL) { //ako cvor kojeg brisemo nema djece
+			free(cvor);
+			return NULL;
+		}
+		
+		if (cvor->R == NULL) { //ako cvor kojeg brisemo nema djece s desno
+			pstablo del = cvor;
+			cvor = cvor->L;
+			free(del);
+			return cvor;
+		}
 
-		//temp je najveci element u lijevom podstablu sta se brise
-		pstablo temp = PronadiMax(cvor->L);
-				
-		if (temp == NULL) { //ako ga nema
+		if (cvor->L == NULL) { //ako cvor kojeg brisemo nema djece s lijevo
 			pstablo del = cvor;
 			cvor = cvor->R;
 			free(del);
 			return cvor;
 		}
-		
-		if (cvor->L == temp) { //ako je odma lijevo od elementa sta se brise
-			pstablo del = cvor;
-			cvor = cvor->L;
-			cvor->R = del->R;
-			free(del);
-			return cvor;
-		}
 
-		//pronadi ga dublje i obrisi s funkcijom
+		/*ako cvor kojeg brisemo ima oboje djece, brisemo maksimalnog s lijevog podstabla
+		i postavljamo njegovu vrijednost na cvor koji se brise*/
+		pstablo temp = PronadiMax(cvor->L);
 		cvor->El = temp->El;
 		cvor->L=Brisi(cvor->L, temp->El);
 		return cvor;
