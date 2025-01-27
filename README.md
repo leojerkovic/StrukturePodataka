@@ -9,7 +9,7 @@ Vjezba 4 ✅
 Vjezba 5 ✅
 Vjezba 6 ✅
 Vjezba 7 ✅
-Vjezba 8...
+Vjezba 8 ✅
 Vjezba 9 ✅
 Vjezba 10 ✅
 ```
