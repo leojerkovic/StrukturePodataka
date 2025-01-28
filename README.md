@@ -1,6 +1,6 @@
 # Strukture Podataka
 
-- Repozitorij laboratorijskih vježbi
+## Repozitorij laboratorijskih vježbi:
 ```
 Vježba 1 ✅
 Vježba 2 ✅
