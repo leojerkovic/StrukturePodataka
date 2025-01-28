@@ -89,8 +89,11 @@ void printajstablo(pstablo cvor) {
 
 int Hash(const char* naziv, int vel) {
 	int vrati=0;
-	while (*(naziv) != '\0') {
-		vrati += *(naziv++);
+	for(int i=0;i<5;i++) {
+		if (*(naziv) == '\0') {
+			break;
+		}
+		vrati += *(naziv++);	
 	}
 	return vrati % vel;
 }
